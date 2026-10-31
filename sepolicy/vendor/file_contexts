@@ -1,0 +1,17 @@
+# MIUI Camera libraries loaded in the app process
+/vendor/lib64/libmialgoengine2\.so u:object_r:same_process_hal_file:s0
+/vendor/lib64/libcom\.xiaomi\.pluginutils\.so u:object_r:same_process_hal_file:s0
+/vendor/lib64/com\.xiaomi\.plugin\.superlowlight\.so u:object_r:same_process_hal_file:s0
+/vendor/lib64/com\.xiaomi\.plugin\.mfnr\.so u:object_r:same_process_hal_file:s0
+/vendor/lib64/com\.xiaomi\.plugin\.morphohdr\.so u:object_r:same_process_hal_file:s0
+/vendor/lib64/com\.xiaomi\.plugin\.skinbeautifier\.so u:object_r:same_process_hal_file:s0
+/vendor/lib64/com\.xiaomi\.plugin\.morphohdsr\.so u:object_r:same_process_hal_file:s0
+/vendor/lib64/com\.xiaomi\.plugin\.mibokeh\.so u:object_r:same_process_hal_file:s0
+/vendor/lib64/com\.xiaomi\.plugin\.swflip\.so u:object_r:same_process_hal_file:s0
+/vendor/lib64/libanc_night\.so u:object_r:same_process_hal_file:s0
+/vendor/lib64/libmorpho_ImageRefiner\.so u:object_r:same_process_hal_file:s0
+/vendor/lib64/libTrueSight\.so u:object_r:same_process_hal_file:s0
+/vendor/lib64/libmpbase\.so u:object_r:same_process_hal_file:s0
+/vendor/lib64/libmorpho_HDSR\.so u:object_r:same_process_hal_file:s0
+/vendor/lib64/libanc_single_bokeh_rear\.so u:object_r:same_process_hal_file:s0
+/vendor/lib(64)?/libmialgoengine\.so u:object_r:same_process_hal_file:s0
