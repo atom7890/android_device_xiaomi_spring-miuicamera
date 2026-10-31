@@ -1,7 +1,6 @@
 binder_use(platform_app_36)
 binder_call(platform_app_36, hal_camera_default)
 
-allow platform_app_36 hal_aidlbgservice_service:service_manager find;
 
 allow platform_app_36 adsprpcd_file:dir { open read search };
 

@@ -1,0 +1,2 @@
+# MIUI Camera session client identity
+vendor_internal_prop(vendor_spring_camera_client_prop)
