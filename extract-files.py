@@ -17,23 +17,28 @@ from extract_utils.main import (
 )
 
 namespace_imports = [
-    'device/xiaomi/peridot-miuicamera',
+    'device/xiaomi/spring-miuicamera',
 ]
 
 blob_fixups: blob_fixups_user_type = {
-    'system/lib64/libcamera_algoup_jni.xiaomi.so': blob_fixup()
-        .add_needed('libgui_shim_miuicamera.so')
-        .sig_replace('08 AD 40 F9', '08 A9 40 F9'),
-    'system/lib64/libcamera_mianode_jni.xiaomi.so': blob_fixup()
-        .add_needed('libgui_shim_miuicamera.so'),
-    'system/lib64/libmicampostproc_client.so': blob_fixup()
-        .remove_needed('libhidltransport.so'),
     'system/priv-app/MiuiCamera/MiuiCamera.apk': blob_fixup()
         .apktool_patch('patches'),
 }  # fmt: skip
 
+# BEGIN SPRING JNI BUFFER OFFSET FIX
+# Android 17 GraphicBuffer field offset, using the tested Spring binaries.
+_spring_jni_key = 'system/lib64/libcamera_algoup_jni.xiaomi.so'
+blob_fixups[_spring_jni_key] = (blob_fixups.get(_spring_jni_key, blob_fixup())
+    .sig_replace('41 00 80 52 e3 03 1f 2a 08 ad 40 f9 00 01 3f d6 e8 03 40 f9', '41 00 80 52 e3 03 1f 2a 08 a9 40 f9 00 01 3f d6 e8 03 40 f9')
+)
+_spring_jni_key = 'system/lib64/libcamera_mianode_jni.xiaomi.so'
+blob_fixups[_spring_jni_key] = (blob_fixups.get(_spring_jni_key, blob_fixup())
+    .sig_replace('41 00 80 52 e3 03 1f 2a 08 ad 40 f9 00 01 3f d6 e8 03 40 f9', '41 00 80 52 e3 03 1f 2a 08 a9 40 f9 00 01 3f d6 e8 03 40 f9')
+)
+# END SPRING JNI BUFFER OFFSET FIX
+
 module = ExtractUtilsModule(
-    'peridot-miuicamera',
+    'spring-miuicamera',
     'xiaomi',
     blob_fixups=blob_fixups,
     lib_fixups=lib_fixups,

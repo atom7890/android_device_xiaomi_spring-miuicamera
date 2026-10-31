@@ -1,0 +1,13 @@
+--- a/smali_classes2/h0/e0.smali
++++ b/smali_classes2/h0/e0.smali
+@@ -1003,9 +1003,7 @@
+ 
+     invoke-direct {v5, p0}, Lorg/json/JSONObject;-><init>(Ljava/lang/String;)V
+ 
+-    invoke-static {}, LC/h0;->b()Ljava/lang/String;
+-
+-    move-result-object p0
++    const-string p0, "GLRegion"
+     :try_end_0
+     .catch Ljava/lang/Exception; {:try_start_0 .. :try_end_0} :catch_1
+ 

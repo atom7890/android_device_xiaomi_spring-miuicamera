@@ -1,0 +1,41 @@
+--- a/smali_classes5/com/xiaomi/camera/imagecodec/impl/SoftwareCodecReprocessor.smali
++++ b/smali_classes5/com/xiaomi/camera/imagecodec/impl/SoftwareCodecReprocessor.smali
+@@ -1288,6 +1288,31 @@
+     throw p0
+ .end method
+ 
++
++.method private static springMaybeSwapChroma([BII)V
++    .locals 4
++
++    mul-int v0, p1, p2
++    array-length v1, p0
++    add-int/lit8 v1, v1, -0x1
++    :spring_swap_loop
++    if-ge v0, v1, :spring_swap_logged
++    aget-byte v2, p0, v0
++    add-int/lit8 v3, v0, 0x1
++    aget-byte v3, p0, v3
++    aput-byte v3, p0, v0
++    add-int/lit8 v3, v0, 0x1
++    aput-byte v2, p0, v3
++    add-int/lit8 v0, v0, 0x2
++    goto :spring_swap_loop
++    :spring_swap_logged
++    const-string v0, "SpringSoftwareJPEG"
++    const-string v1, "U/V chroma correction enabled"
++    invoke-static {v0, v1}, Landroid/util/Log;->i(Ljava/lang/String;Ljava/lang/String;)I
++    :spring_swap_done
++    return-void
++.end method
++
+ .method private static springPackNv21(Landroid/media/Image;)[B
+     .locals 15
+ 
+@@ -1364,5 +1389,6 @@
+     add-int/lit8 v5, v5, 0x1
+     const/4 v14, 0x3
+     if-lt v5, v14, :spring_plane
++    invoke-static {v3, v1, v2}, Lcom/xiaomi/camera/imagecodec/impl/SoftwareCodecReprocessor;->springMaybeSwapChroma([BII)V
+     return-object v3
+ .end method

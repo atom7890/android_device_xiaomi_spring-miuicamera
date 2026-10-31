@@ -1,0 +1,130 @@
+--- a/smali_classes5/com/xiaomi/camera/imagecodec/impl/SoftwareCodecReprocessor.smali
++++ b/smali_classes5/com/xiaomi/camera/imagecodec/impl/SoftwareCodecReprocessor.smali
+@@ -492,6 +492,10 @@
+ 
+     iget-object v8, v1, Lcom/xiaomi/camera/imagecodec/impl/SoftwareCodecReprocessor;->mCurrentProcessingData:Lcom/xiaomi/camera/imagecodec/ReprocessData;
+ 
++    invoke-static {v3, v8}, Lcom/xiaomi/camera/imagecodec/impl/SoftwareCodecReprocessor;->springAddOrientation([BLcom/xiaomi/camera/imagecodec/ReprocessData;)[B
++
++    move-result-object v3
++
+     invoke-virtual {v8}, Lcom/xiaomi/camera/imagecodec/ReprocessData;->getImageTag()Ljava/lang/String;
+ 
+     move-result-object v8
+@@ -805,6 +809,116 @@
+ .end method
+ 
+ 
++
++.method private static springAddOrientation([BLcom/xiaomi/camera/imagecodec/ReprocessData;)[B
++    .locals 7
++
++    :spring_try
++    invoke-virtual {p1}, Lcom/xiaomi/camera/imagecodec/ReprocessData;->getOrientation()I
++    move-result v0
++    invoke-virtual {p1}, Lcom/xiaomi/camera/imagecodec/ReprocessData;->getTotalCaptureResult()Lcom/xiaomi/protocol/ICustomCaptureResult;
++    move-result-object v1
++    if-eqz v1, :spring_have_angle
++    const/4 v2, 0x0
++    invoke-static {v1, v2}, Lcom/xiaomi/protocol/ICustomCaptureResult;->toTotalCaptureResult(Lcom/xiaomi/protocol/ICustomCaptureResult;I)Landroid/hardware/camera2/TotalCaptureResult;
++    move-result-object v1
++    if-eqz v1, :spring_have_angle
++    sget-object v2, Landroid/hardware/camera2/CaptureResult;->JPEG_ORIENTATION:Landroid/hardware/camera2/CaptureResult$Key;
++    invoke-virtual {v1, v2}, Landroid/hardware/camera2/TotalCaptureResult;->get(Landroid/hardware/camera2/CaptureResult$Key;)Ljava/lang/Object;
++    move-result-object v1
++    check-cast v1, Ljava/lang/Integer;
++    if-eqz v1, :spring_have_angle
++    invoke-virtual {v1}, Ljava/lang/Integer;->intValue()I
++    move-result v0
++
++    :spring_have_angle
++    const-string v1, "SpringSoftwareJPEG"
++    invoke-static {v0}, Ljava/lang/String;->valueOf(I)Ljava/lang/String;
++    move-result-object v2
++    invoke-static {v1, v2}, Landroid/util/Log;->i(Ljava/lang/String;Ljava/lang/String;)I
++    const/4 v1, 0x1
++    const/16 v2, 0x5a
++    if-ne v0, v2, :spring_check_180
++    const/4 v1, 0x6
++    goto :spring_make_exif
++    :spring_check_180
++    const/16 v2, 0xb4
++    if-ne v0, v2, :spring_check_270
++    const/4 v1, 0x3
++    goto :spring_make_exif
++    :spring_check_270
++    const/16 v2, 0x10e
++    if-ne v0, v2, :spring_make_exif
++    const/16 v1, 0x8
++
++    :spring_make_exif
++    const/16 v0, 0x24
++    new-array v2, v0, [B
++    fill-array-data v2, :spring_exif_payload
++    const/16 v3, 0x1c
++    aput-byte v1, v2, v3
++    array-length v3, p0
++    add-int v4, v3, v0
++    new-array v4, v4, [B
++    const/4 v5, 0x0
++    const/4 v6, 0x2
++    invoke-static {p0, v5, v4, v5, v6}, Ljava/lang/System;->arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
++    invoke-static {v2, v5, v4, v6, v0}, Ljava/lang/System;->arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
++    add-int/2addr v0, v6
++    sub-int/2addr v3, v6
++    invoke-static {p0, v6, v4, v0, v3}, Ljava/lang/System;->arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
++    :spring_try_end
++    .catch Ljava/lang/Exception; {:spring_try .. :spring_try_end} :spring_exif_error
++    return-object v4
++
++    :spring_exif_error
++    move-exception v0
++    const-string v1, "SpringSoftwareJPEG"
++    const-string v2, "Could not preserve JPEG orientation"
++    invoke-static {v1, v2, v0}, Landroid/util/Log;->e(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I
++    return-object p0
++
++    :spring_exif_payload
++    .array-data 1
++        -0x1t
++        -0x1ft
++        0x0t
++        0x22t
++        0x45t
++        0x78t
++        0x69t
++        0x66t
++        0x0t
++        0x0t
++        0x49t
++        0x49t
++        0x2at
++        0x0t
++        0x8t
++        0x0t
++        0x0t
++        0x0t
++        0x1t
++        0x0t
++        0x12t
++        0x1t
++        0x3t
++        0x0t
++        0x1t
++        0x0t
++        0x0t
++        0x0t
++        0x1t
++        0x0t
++        0x0t
++        0x0t
++        0x0t
++        0x0t
++        0x0t
++        0x0t
++    .end array-data
++.end method
++
+ # virtual methods
+ .method public deInit()V
+     .locals 2

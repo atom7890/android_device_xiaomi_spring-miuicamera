@@ -4,13 +4,13 @@ Date: Wed, 3 Jun 2026 16:42:54 +0530
 Subject: [PATCH 3/7] Load obfuscated resources sanely
 
 ---
- smali_classes4/F8/a.smali | 18 +++++++++++++++++-
+ smali_classes4/H8/a.smali | 18 +++++++++++++++++-
  1 file changed, 17 insertions(+), 1 deletion(-)
 
-diff --git a/smali_classes4/F8/a.smali b/smali_classes4/F8/a.smali
+diff --git a/smali_classes4/H8/a.smali b/smali_classes4/H8/a.smali
 index 47d0fcf5..c3ae57c0 100644
---- a/smali_classes4/F8/a.smali
-+++ b/smali_classes4/F8/a.smali
+--- a/smali_classes4/H8/a.smali
++++ b/smali_classes4/H8/a.smali
 @@ -166,7 +166,7 @@
  .end method
  

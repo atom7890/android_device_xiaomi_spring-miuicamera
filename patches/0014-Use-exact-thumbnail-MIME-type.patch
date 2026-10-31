@@ -1,0 +1,21 @@
+Subject: [PATCH] spring: Let Android resolve the thumbnail content type
+
+Let Android resolve the MediaStore URI type without adding DEX method references.
+Preserve implicit Android gallery selection. No preferred package.
+
+diff --git a/smali/com/android/camera/Camera.smali b/smali/com/android/camera/Camera.smali
+index 04d0e2ab097b24037c84c982c826081d238581e6..649bb5a738ade33294fa4e3ab9842386adf3617a 100644
+--- a/smali/com/android/camera/Camera.smali
++++ b/smali/com/android/camera/Camera.smali
+@@ -6550,10 +6550,9 @@
+     if-eqz p1, :cond_f
+ 
+     :try_start_7
+-    invoke-virtual {p0, v2}, Landroid/content/Intent;->setPackage(Ljava/lang/String;)Landroid/content/Intent;
+ 
+     :cond_f
+-    const-string p1, "image/*"
++    const/4 p1, 0x0
+ 
+     invoke-virtual {p0, v7, p1}, Landroid/content/Intent;->setDataAndType(Landroid/net/Uri;Ljava/lang/String;)Landroid/content/Intent;
+ 

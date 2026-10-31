@@ -1,0 +1,17 @@
+--- a/smali_classes5/com/xiaomi/camera/imagecodec/ReprocessorFactory.smali
++++ b/smali_classes5/com/xiaomi/camera/imagecodec/ReprocessorFactory.smali
+@@ -74,6 +74,14 @@
+ .method public static declared-synchronized getReprocessor(Lcom/xiaomi/camera/imagecodec/ReprocessorFactory$ReprocessorType;)Lcom/xiaomi/camera/imagecodec/Reprocessor;
+     .locals 4
+ 
++    sget-object v0, Lcom/xiaomi/camera/imagecodec/ReprocessorFactory$ReprocessorType;->VIRTUAL_CAMERA:Lcom/xiaomi/camera/imagecodec/ReprocessorFactory$ReprocessorType;
++
++    if-ne p0, v0, :spring_keep_reprocessor
++
++    sget-object p0, Lcom/xiaomi/camera/imagecodec/ReprocessorFactory$ReprocessorType;->SOFTWARE_CODEC:Lcom/xiaomi/camera/imagecodec/ReprocessorFactory$ReprocessorType;
++
++    :spring_keep_reprocessor
++
+     const-string v0, "getReprocessor: type = "
+ 
+     const-class v1, Lcom/xiaomi/camera/imagecodec/ReprocessorFactory;

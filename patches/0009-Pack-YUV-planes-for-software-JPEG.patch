@@ -1,0 +1,165 @@
+--- a/smali_classes5/com/xiaomi/camera/imagecodec/impl/SoftwareCodecReprocessor.smali
++++ b/smali_classes5/com/xiaomi/camera/imagecodec/impl/SoftwareCodecReprocessor.smali
+@@ -372,73 +372,17 @@
+ 
+     if-ne v3, v4, :cond_2
+ 
+-    invoke-virtual {v5}, Landroid/media/Image;->getPlanes()[Landroid/media/Image$Plane;
+-
+-    move-result-object v3
+-
+-    aget-object v4, v3, v6
+-
+-    invoke-virtual {v4}, Landroid/media/Image$Plane;->getBuffer()Ljava/nio/ByteBuffer;
+-
+-    move-result-object v4
+-
+-    const/4 v8, 0x2
+-
+-    aget-object v9, v3, v8
+-
+-    invoke-virtual {v9}, Landroid/media/Image$Plane;->getBuffer()Ljava/nio/ByteBuffer;
+-
+-    move-result-object v9
+-
+-    aget-object v10, v3, v6
+-
+-    invoke-virtual {v10}, Landroid/media/Image$Plane;->getRowStride()I
++    invoke-static {v5}, Lcom/xiaomi/camera/imagecodec/impl/SoftwareCodecReprocessor;->springPackNv21(Landroid/media/Image;)[B
++
++    move-result-object v12
++
++    invoke-virtual {v5}, Landroid/media/Image;->getWidth()I
+ 
+     move-result v10
+ 
+-    aget-object v3, v3, v8
+-
+-    invoke-virtual {v3}, Landroid/media/Image$Plane;->getRowStride()I
+-
+-    move-result v3
+-
+-    filled-new-array {v10, v3}, [I
++    filled-new-array {v10, v10}, [I
+ 
+     move-result-object v16
+-
+-    invoke-virtual {v4}, Ljava/nio/Buffer;->limit()I
+-
+-    move-result v3
+-
+-    invoke-virtual {v5}, Landroid/media/Image;->getWidth()I
+-
+-    move-result v8
+-
+-    sub-int/2addr v3, v8
+-
+-    aget v8, v16, v6
+-
+-    add-int/2addr v3, v8
+-
+-    invoke-virtual {v9}, Ljava/nio/Buffer;->limit()I
+-
+-    move-result v8
+-
+-    add-int v10, v3, v8
+-
+-    new-array v12, v10, [B
+-
+-    invoke-virtual {v4}, Ljava/nio/ByteBuffer;->rewind()Ljava/nio/Buffer;
+-
+-    invoke-virtual {v9}, Ljava/nio/ByteBuffer;->rewind()Ljava/nio/Buffer;
+-
+-    invoke-virtual {v4}, Ljava/nio/Buffer;->limit()I
+-
+-    move-result v10
+-
+-    invoke-virtual {v4, v12, v6, v10}, Ljava/nio/ByteBuffer;->get([BII)Ljava/nio/ByteBuffer;
+-
+-    invoke-virtual {v9, v12, v3, v8}, Ljava/nio/ByteBuffer;->get([BII)Ljava/nio/ByteBuffer;
+ 
+     new-instance v11, Landroid/graphics/YuvImage;
+ 
+@@ -1229,3 +1173,82 @@
+ 
+     throw p0
+ .end method
++
++.method private static springPackNv21(Landroid/media/Image;)[B
++    .locals 15
++
++    invoke-virtual {p0}, Landroid/media/Image;->getWidth()I
++    move-result v1
++    invoke-virtual {p0}, Landroid/media/Image;->getHeight()I
++    move-result v2
++    invoke-virtual {p0}, Landroid/media/Image;->getPlanes()[Landroid/media/Image$Plane;
++    move-result-object v0
++
++    mul-int v11, v1, v2
++    div-int/lit8 v14, v11, 0x2
++    add-int/2addr v14, v11
++    new-array v3, v14, [B
++    const/4 v5, 0x0
++
++    :spring_plane
++    aget-object v8, v0, v5
++    invoke-virtual {v8}, Landroid/media/Image$Plane;->getRowStride()I
++    move-result v9
++    invoke-virtual {v8}, Landroid/media/Image$Plane;->getPixelStride()I
++    move-result v10
++    invoke-virtual {v8}, Landroid/media/Image$Plane;->getBuffer()Ljava/nio/ByteBuffer;
++    move-result-object v8
++    invoke-virtual {v8}, Ljava/nio/Buffer;->position()I
++    move-result v12
++
++    const/4 v6, 0x0
++    :spring_row
++    move v14, v2
++    if-eqz v5, :spring_row_bound
++    div-int/lit8 v14, v14, 0x2
++    :spring_row_bound
++    if-ge v6, v14, :spring_next_plane
++
++    mul-int v13, v6, v1
++    if-eqz v5, :spring_row_base
++    mul-int v11, v1, v2
++    add-int/2addr v13, v11
++    const/4 v14, 0x1
++    if-ne v5, v14, :spring_row_base
++    add-int/lit8 v13, v13, 0x1
++    :spring_row_base
++    const/4 v7, 0x0
++
++    :spring_col
++    move v14, v1
++    if-eqz v5, :spring_col_bound
++    div-int/lit8 v14, v14, 0x2
++    :spring_col_bound
++    if-ge v7, v14, :spring_next_row
++
++    mul-int v11, v6, v9
++    mul-int v14, v7, v10
++    add-int/2addr v11, v14
++    add-int/2addr v11, v12
++    invoke-virtual {v8, v11}, Ljava/nio/ByteBuffer;->get(I)B
++    move-result v4
++
++    move v11, v7
++    if-eqz v5, :spring_store
++    mul-int/lit8 v11, v11, 0x2
++    :spring_store
++    add-int/2addr v11, v13
++    aput-byte v4, v3, v11
++    add-int/lit8 v7, v7, 0x1
++    goto :spring_col
++
++    :spring_next_row
++    add-int/lit8 v6, v6, 0x1
++    goto :spring_row
++
++    :spring_next_plane
++    add-int/lit8 v5, v5, 0x1
++    const/4 v14, 0x3
++    if-lt v5, v14, :spring_plane
++    return-object v3
++.end method

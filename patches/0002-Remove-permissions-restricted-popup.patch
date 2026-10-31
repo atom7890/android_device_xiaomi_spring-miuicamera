@@ -1,0 +1,13 @@
+--- a/smali/com/android/camera/ActivityBase$c.smali
++++ b/smali/com/android/camera/ActivityBase$c.smali
+@@ -79,10 +79,6 @@
+     goto/16 :goto_1
+ 
+     :pswitch_1
+-    const p1, 0x7f140c74
+-
+-    invoke-static {p0, p1, v6}, LC/C3;->c(Landroid/content/Context;IZ)V
+-
+     return-void
+ 
+     :pswitch_2

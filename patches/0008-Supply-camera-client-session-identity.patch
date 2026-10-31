@@ -1,0 +1,39 @@
+--- a/smali_classes3/J9/b.smali
++++ b/smali_classes3/J9/b.smali
+@@ -93,6 +93,8 @@
+ 
+     monitor-exit p2
+ 
++    invoke-static {p0}, LJ9/b;->springSetClientName(Landroid/hardware/camera2/CaptureRequest$Builder;)V
++
+     return-object p0
+ 
+     :catchall_0
+@@ -269,3 +271,27 @@
+ 
+     return p0
+ .end method
++
++.method private static springSetClientName(Landroid/hardware/camera2/CaptureRequest$Builder;)V
++    .locals 3
++
++    new-instance v0, Landroid/hardware/camera2/CaptureRequest$Key;
++
++    const-string v1, "com.xiaomi.sessionparams.clientName"
++
++    const-class v2, [B
++
++    invoke-direct {v0, v1, v2}, Landroid/hardware/camera2/CaptureRequest$Key;-><init>(Ljava/lang/String;Ljava/lang/Class;)V
++
++    const-string v1, "com.android.camera\u0000"
++
++    const-string v2, "UTF-8"
++
++    invoke-virtual {v1, v2}, Ljava/lang/String;->getBytes(Ljava/lang/String;)[B
++
++    move-result-object v1
++
++    invoke-virtual {p0, v0, v1}, Landroid/hardware/camera2/CaptureRequest$Builder;->set(Landroid/hardware/camera2/CaptureRequest$Key;Ljava/lang/Object;)V
++
++    return-void
++.end method

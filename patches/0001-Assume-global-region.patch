@@ -1,0 +1,11 @@
+--- a/smali_classes4/I7/d.smali
++++ b/smali_classes4/I7/d.smali
+@@ -233,7 +233,7 @@
+ 
+     invoke-virtual {v0, v3}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
+ 
+-    move-result v0
++    const/4 v0, 0x1
+ 
+     sput-boolean v0, LI7/d;->m:Z
+ 

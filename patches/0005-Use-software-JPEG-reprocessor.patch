@@ -1,0 +1,20 @@
+--- a/smali_classes5/com/xiaomi/camera/imagecodec/ReprocessorFactory.smali
++++ b/smali_classes5/com/xiaomi/camera/imagecodec/ReprocessorFactory.smali
+@@ -232,7 +232,7 @@
+     monitor-enter v0
+ 
+     :try_start_0
+-    sget-object v1, Lcom/xiaomi/camera/imagecodec/ReprocessorFactory$ReprocessorType;->VIRTUAL_CAMERA:Lcom/xiaomi/camera/imagecodec/ReprocessorFactory$ReprocessorType;
++    sget-object v1, Lcom/xiaomi/camera/imagecodec/ReprocessorFactory$ReprocessorType;->SOFTWARE_CODEC:Lcom/xiaomi/camera/imagecodec/ReprocessorFactory$ReprocessorType;
+     :try_end_0
+     .catchall {:try_start_0 .. :try_end_0} :catchall_0
+ 
+@@ -243,7 +243,7 @@
+ 
+     const/4 v3, 0x0
+ 
+-    aget-object v1, v2, v3
++    sget-object v1, Lcom/xiaomi/camera/imagecodec/ReprocessorFactory$ReprocessorType;->SOFTWARE_CODEC:Lcom/xiaomi/camera/imagecodec/ReprocessorFactory$ReprocessorType;
+     :try_end_1
+     .catch Landroid/content/res/Resources$NotFoundException; {:try_start_1 .. :try_end_1} :catch_0
+     .catch Ljava/lang/ArrayIndexOutOfBoundsException; {:try_start_1 .. :try_end_1} :catch_0
