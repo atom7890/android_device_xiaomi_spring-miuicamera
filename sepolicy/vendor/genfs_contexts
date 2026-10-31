@@ -1,0 +1,2 @@
+# MIUI Camera rear QVGA sensor
+genfscon sysfs /devices/virtual/qvga/qvga/rear_qvga u:object_r:vendor_spring_qvga_sysfs:s0
