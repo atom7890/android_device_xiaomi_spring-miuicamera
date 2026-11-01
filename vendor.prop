@@ -1,5 +1,5 @@
 # Camera
 ro.hardware.camera=xiaomi
 
-# Native live beauty remains disabled pending its buffer crash fix.
+# Enable TrueSight live beauty.
 persist.vendor.camera.ts.beauty.enabled=1
